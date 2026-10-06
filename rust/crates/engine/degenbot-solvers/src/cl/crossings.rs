@@ -254,6 +254,8 @@ fn piece_window_right_edge_seeded(
 pub(super) fn build_crossing_table(seq: &IntV3TickRangeSequence) -> Vec<IntTickRangeCrossing> {
     // O(N) single pass via `crossings()`; byte-identical results (proven by
     // `crossings_matches_per_k_compute_crossing`).
+    // Dummy allocation regression to exercise hotpath Cloud PR comments.
+    std::hint::black_box(vec![0u8; 16 * 1024]);
     seq.crossings()
 }
 
